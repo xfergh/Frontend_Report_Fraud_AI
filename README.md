@@ -1,135 +1,36 @@
-ReportFraudAI - Frontend Web
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Frontend web administrativo de ReportFraudAI, una plataforma para la gestión y revisión de reportes relacionados con posibles fraudes digitales realizados mediante herramientas de inteligencia artificial.
+## Getting Started
 
-La aplicación está desarrollada con Next.js y está diseñada para conectarse a un backend NestJS mediante una API HTTP.
+First, run the development server:
 
-Tecnologías utilizadas
-
-Tecnología
-
-Uso
-
-Next.js 16.3.8
-
-Framework principal del frontend
-
-React
-
-Desarrollo de componentes e interfaces
-
-TypeScript
-
-Tipado y organización del código
-
-Axios
-
-Comunicación HTTP con el backend
-
-CSS
-
-Estilos y diseño responsivo
-
-npm
-
-Administración de dependencias
-
-Requisitos previos
-
-Node.js 20 o superior
-
-npm
-
-Git
-
-Instalación
-
-Clonar el repositorio.
-
-git clone https://github.com/xfergh/Frontend_Report_Fraud_AI.git
-
-Entrar a la carpeta del proyecto.
-
-cd Frontend_Report_Fraud_AI
-
-Instalar las dependencias.
-
-npm ci
-
-Iniciar el servidor de desarrollo.
-
+```bash
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-Abrir la aplicación en el navegador.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-http://localhost:3001
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-Configuración del backend
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-El frontend utiliza Axios para comunicarse con el backend.
+## Learn More
 
-La dirección predeterminada de la API es http://localhost:3000.
+To learn more about Next.js, take a look at the following resources:
 
-Esta dirección puede configurarse mediante la variable de entorno NEXT_PUBLIC_API_URL.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-La autenticación requiere que el backend implemente los endpoints correspondientes de inicio de sesión y renovación de tokens.
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-Estructura inicial
+## Deploy on Vercel
 
-Ruta
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Descripción
-
-src/app/login/page.tsx
-
-Formulario de inicio de sesión
-
-src/app/page.tsx
-
-Redirección inicial hacia el login
-
-src/app/layout.tsx
-
-Estructura general y metadatos
-
-src/app/globals.css
-
-Estilos globales e identidad visual
-
-src/lib/api.ts
-
-Cliente Axios y funciones de autenticación
-
-Funcionalidades implementadas
-
-Interfaz de inicio de sesión.
-
-Validación de correo electrónico y contraseña.
-
-Almacenamiento local de access token y refresh token.
-
-Envío automático del access token mediante Axios.
-
-Manejo de errores de autenticación y conexión.
-
-Renovación automática del access token ante respuestas HTTP 401.
-
-Diseño adaptable a diferentes tamaños de pantalla.
-
-Estado del desarrollo
-
-La estructura inicial y la interfaz de autenticación están implementadas.
-
-La conexión con el backend NestJS sigue pendiente de integración y pruebas. Por este motivo, el inicio de sesión real todavía requiere los servicios correspondientes.
-
-El dashboard administrativo, la gestión de reportes, las estadísticas y el historial se incorporarán progresivamente en las siguientes etapas del proyecto.
-
-Proyecto
-
-ReportFraudAI
-
-Tecnológico de Monterrey
-
-Equipo 5
-
-TC2007B - Integración de seguridad informática en redes y sistemas de software
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
