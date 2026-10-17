@@ -1,7 +1,13 @@
-
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { actualizarEstadoReporte,
+  descargarEvidencia,
+  getEvidenciasReporte,
+  getEstadisticasReportes,
+  getReporteDetalle,
+  getReportesPendientes,
+  getResumenReportes, type EstadisticasReportesApi, } from '@/lib/api';
 import DashboardHeader from './DashboardHeader';
 import SummaryCards, { type ReportSummary } from './SummaryCards';
 import PendingReports, { type PendingReport } from './PendingReports';
@@ -25,6 +31,7 @@ const previewSummary: ReportSummary = {
 const previewReports: PendingReport[] = [
   {
     id: 'RFA-101',
+    idReporte: 101,
     category: 'Suplantación con IA',
     platform: 'Instagram',
     date: '08 oct 2026',
@@ -33,6 +40,7 @@ const previewReports: PendingReport[] = [
   },
   {
     id: 'RFA-102',
+    idReporte: 102,
     category: 'Voz sintética',
     platform: 'WhatsApp',
     date: '07 oct 2026',
@@ -41,6 +49,7 @@ const previewReports: PendingReport[] = [
   },
   {
     id: 'RFA-103',
+    idReporte: 103,
     category: 'Imágenes manipuladas',
     platform: 'Facebook',
     date: '06 oct 2026',
@@ -48,6 +57,7 @@ const previewReports: PendingReport[] = [
   },
   {
     id: 'RFA-104',
+    idReporte: 104,
     category: 'Suplantación con IA',
     platform: 'TikTok',
     date: '05 oct 2026',
@@ -55,6 +65,7 @@ const previewReports: PendingReport[] = [
   },
   {
     id: 'RFA-105',
+    idReporte: 105,
     category: 'Voz sintética',
     platform: 'Telegram',
     date: '04 oct 2026',
@@ -70,6 +81,12 @@ export default function DashboardView({
   const [summary, setSummary] =
     useState<ReportSummary>(previewSummary);
 
+  const [backendSummary, setBackendSummary] =
+    useState<ReportSummary | null>(null);
+
+  const [backendStatistics, setBackendStatistics] =
+    useState<EstadisticasReportesApi | null>(null);
+
   const [selectedReport, setSelectedReport] =
     useState<PendingReport | null>(null);
 
@@ -79,78 +96,204 @@ export default function DashboardView({
 
   const [history, setHistory] = useState<ReviewHistoryEntry[]>([]);
 
-  function handleSelect(report: PendingReport) {
-    setSelectedReport(report);
-    setMessage('');
-    setPendingMessage('');
-
-    requestAnimationFrame(() => {
-      document.getElementById('report-details')?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    });
-  }
-
-  function handleDecision(decision: ReviewDecision) {
-    if (!preview || !selectedReport) return;
-
-    const reportId = selectedReport.id;
-
-    if (decision === 'pending') {
-      setSelectedReport(null);
-      setMessage('');
-
-      setPendingMessage(
-        `El reporte ${reportId} permanece en revisión. Acción simulada.`
-      );
-
-      requestAnimationFrame(() => {
-        document.getElementById('pending-reports')?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
-      });
-
+  useEffect(() => {
+    if (preview) {
       return;
     }
 
-    setReports((current) =>
-      current.filter((report) => report.id !== reportId)
-    );
-
+    getResumenReportes()
+      .then((data) => {
+        setBackendSummary({
+          total: data.total,
+          pending: data.pendientes,
+          approved: data.aprobados,
+          rejected: data.rechazados,
+        });
+      })
+      .catch(() => {
+        setBackendSummary(null);
+      });
     
-    setHistory((current) => [
-      {
-        report: selectedReport,
-        decision: decision === 'approved' ? 'approved' : 'rejected',
-        reviewedAt: new Date().toLocaleString('es-MX', {
-          day: '2-digit',
-          month: 'short',
-          year: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-        }),
-      },
-      ...current,
-    ]);
+    getEstadisticasReportes()
+      .then((data) => {
+        setBackendStatistics(data);
+      })
+      .catch(() => {
+        setBackendStatistics(null);
+      });
 
-    setSummary((current) => ({
-      ...current,
-      pending: current.pending - 1,
-      approved:
-        current.approved + (decision === 'approved' ? 1 : 0),
-      rejected:
-        current.rejected + (decision === 'rejected' ? 1 : 0),
-    }));
+    getReportesPendientes()
+      .then((data) => {
+        setReports(
+          data.map((reporte) => ({
+            id: `RFA-${reporte.idReporte}`,
+            idReporte: reporte.idReporte,
+            category: reporte.categoria,
+            subcategory: reporte.subcategoria,
+            platform: reporte.plataforma,
+            date: new Date(
+              reporte.fechaRegistro,
+            ).toLocaleDateString('es-MX', {
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric',
+            }),
+            description: reporte.descripcion,
+            reportedEntity: reporte.entidadReportada,
+            anonymous: reporte.publicacionAnonima,
+          }))
+        );
+      })
+      .catch(() => {
+        setReports([]);
+      });
+  }, [preview]);
 
-    setMessage(
-      `El reporte ${reportId} fue ${
-        decision === 'approved' ? 'aprobado' : 'rechazado'
-      }. Acción simulada.`
-    );
+  async function handleSelect(report: PendingReport) {
+    setMessage('');
+    setPendingMessage('');
 
-    setSelectedReport(null);
+    if (preview) {
+      setSelectedReport(report);
+    } else {
+      try {
+        const [detalle, evidencias] = await Promise.all([
+          getReporteDetalle(report.idReporte),
+          getEvidenciasReporte(report.idReporte),
+        ]);
+
+        setSelectedReport({
+          id: `RFA-${detalle.idReporte}`,
+          idReporte: detalle.idReporte,
+          category: detalle.categoria,
+          subcategory: detalle.subcategoria,
+          platform: detalle.plataforma,
+          date: new Date(
+            detalle.fechaRegistro,
+          ).toLocaleDateString('es-MX', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+          }),
+          description: detalle.descripcion,
+          reportedEntity: detalle.entidadReportada,
+          anonymous: detalle.publicacionAnonima,
+          evidenceNames: evidencias.map(
+            (evidencia) => evidencia.nombreArchivo,
+          ),
+        });
+      } catch {
+        setMessage(
+          'No se pudo cargar el detalle del reporte.',
+        );
+        return;
+      }
+    }
+
+    requestAnimationFrame(() => {
+      document
+        .getElementById('report-details')
+        ?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+    });
+  }
+
+  async function handleDecision(
+    decision: ReviewDecision,
+  ) {
+    if (!selectedReport) return;
+
+    const reportId = selectedReport.id;
+
+    if (preview) {
+      if (decision === 'pending') {
+        setSelectedReport(null);
+        setMessage('');
+
+        setPendingMessage(
+          `El reporte ${reportId} permanece en revisión. Acción simulada.`,
+        );
+
+        return;
+      }
+
+      setReports((current) =>
+        current.filter(
+          (report) => report.id !== reportId,
+        ),
+      );
+
+      setSelectedReport(null);
+      return;
+    }
+
+    const idEstado =
+      decision === 'approved'
+        ? 2
+        : decision === 'rejected'
+          ? 3
+          : 1;
+
+    try {
+      await actualizarEstadoReporte(
+        selectedReport.idReporte,
+        idEstado,
+      );
+
+      if (decision === 'pending') {
+        setPendingMessage(
+          `El reporte ${reportId} permanece en revisión.`,
+        );
+
+        setSelectedReport(null);
+        return;
+      }
+
+      setReports((current) =>
+        current.filter(
+          (report) =>
+            report.idReporte !==
+            selectedReport.idReporte,
+        ),
+      );
+
+      const resumen = await getResumenReportes();
+
+      setBackendSummary({
+        total: resumen.total,
+        pending: resumen.pendientes,
+        approved: resumen.aprobados,
+        rejected: resumen.rechazados,
+      });
+
+      setMessage(
+        `El reporte ${reportId} fue ${
+          decision === 'approved'
+            ? 'aprobado'
+            : 'rechazado'
+        }.`,
+      );
+
+      setSelectedReport(null);
+    } catch {
+      setMessage(
+        `No se pudo actualizar el estado del reporte ${reportId}.`,
+      );
+    }
+  }
+
+  async function handleEvidence(
+    nombreArchivo: string,
+  ) {
+    try {
+      await descargarEvidencia(nombreArchivo);
+    } catch {
+      setMessage(
+        'No se pudo descargar la evidencia.',
+      );
+    }
   }
 
   return (
@@ -172,9 +315,10 @@ export default function DashboardView({
         />
 
         <PendingReports
-          reports={preview ? reports : null}
+          reports={reports}
           selectedId={selectedReport?.id ?? null}
           onSelect={handleSelect}
+          notice={pendingMessage}
         />
 
         <ReportDetails
@@ -182,11 +326,13 @@ export default function DashboardView({
           preview={preview}
           message={message}
           onDecision={handleDecision}
+          onEvidence={handleEvidence}
         />
   
         <ReportStatistics
-          summary={preview ? summary : null}
+          summary={preview ? summary : backendSummary}
           reports={preview ? reports : null}
+          statistics={preview ? null : backendStatistics}
         />
         
         <ReportHistory
