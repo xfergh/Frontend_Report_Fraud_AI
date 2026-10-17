@@ -1,0 +1,108 @@
+
+.header {
+  width: 100%;
+  background: #0B1220;
+  color: #FFFFFF;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  min-height: 80px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  box-sizing: border-box;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brandIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 8px;
+  border-radius: 10px;
+  background: #14305E;
+  color: #7DD3FC;
+  box-sizing: border-box;
+}
+
+.brandIcon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.brandName {
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+}
+
+.brandName span {
+  color: #60A5FA;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.role {
+  font-size: 14px;
+  color: #CBD5E1;
+}
+
+.logoutButton {
+  padding: 10px 16px;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  background: transparent;
+  color: #FFFFFF;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.logoutButton:hover {
+  background: #1E293B;
+}
+
+.logoutButton:focus-visible {
+  outline: 3px solid #93C5FD;
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 16px;
+  }
+
+  .brandName {
+    font-size: 18px;
+  }
+
+  .actions {
+    gap: 10px;
+  }
+
+  .role {
+    display: none;
+  }
+
+  .logoutButton {
+    padding: 9px 11px;
+    font-size: 12px;
+  }
+}
