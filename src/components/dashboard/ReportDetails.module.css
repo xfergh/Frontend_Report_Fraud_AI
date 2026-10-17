@@ -1,0 +1,215 @@
+
+.section {
+  width: 100%;
+  margin-top: 48px;
+  scroll-margin-top: 32px;
+}
+
+.title {
+  margin: 0 0 20px;
+  color: #101828;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.card {
+  padding: 28px;
+  border: 1px solid #E4E7EC;
+  border-radius: 14px;
+  background: #FFFFFF;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #E4E7EC;
+}
+
+.reportId {
+  color: #2563EB;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.header h3 {
+  margin: 8px 0 0;
+  color: #101828;
+  font-size: 19px;
+}
+
+.status {
+  padding: 7px 12px;
+  border-radius: 20px;
+  background: #FFFBEB;
+  color: #92400E;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.information {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  padding: 28px 0;
+}
+
+.label {
+  color: #667085;
+  font-size: 13px;
+}
+
+.information p {
+  margin: 8px 0 0;
+  color: #101828;
+  font-size: 14px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.block {
+  margin-bottom: 28px;
+}
+
+.block h3 {
+  margin: 0 0 12px;
+  color: #101828;
+  font-size: 16px;
+}
+
+.description {
+  margin: 0;
+  padding: 18px;
+  border: 1px solid #E4E7EC;
+  border-radius: 10px;
+  background: #F8FAFC;
+  color: #344054;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.note {
+  margin: 0;
+  color: #667085;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.evidenceList {
+  display: grid;
+  gap: 10px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.evidenceList li {
+  padding: 12px 16px;
+  border: 1px solid #E4E7EC;
+  border-radius: 8px;
+  color: #344054;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.footer {
+  padding-top: 24px;
+  border-top: 1px solid #E4E7EC;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.actions button {
+  min-height: 42px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pendingButton {
+  border: 1px solid #D0D5DD;
+  background: #FFFFFF;
+  color: #344054;
+}
+
+.rejectButton {
+  border: 1px solid #FECACA;
+  background: #FEF2F2;
+  color: #B91C1C;
+}
+
+.approveButton {
+  border: 1px solid #2563EB;
+  background: #2563EB;
+  color: #FFFFFF;
+}
+
+.actions button:hover:not(:disabled) {
+  filter: brightness(0.96);
+}
+
+.actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.actions button:focus-visible {
+  outline: 3px solid #93C5FD;
+  outline-offset: 3px;
+}
+
+.message {
+  margin: 0 0 16px;
+  padding: 14px 18px;
+  border: 1px solid #BFDBFE;
+  border-radius: 8px;
+  background: #EFF6FF;
+  color: #1D4ED8;
+  font-size: 14px;
+}
+
+.empty {
+  padding: 48px 24px;
+  border: 1px dashed #D0D5DD;
+  border-radius: 12px;
+  background: #FFFFFF;
+  color: #667085;
+  text-align: center;
+  font-size: 14px;
+}
+
+@media (max-width: 700px) {
+  .card {
+    padding: 20px;
+  }
+
+  .information {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+
+  .section {
+    margin-top: 36px;
+  }
+}
