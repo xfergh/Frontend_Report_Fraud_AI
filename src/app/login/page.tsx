@@ -104,6 +104,16 @@ export default function LoginPage() {
                 {sending ? 'Entrando…' : 'Entrar'}
               </button>
             </form>         
+            {process.env.NODE_ENV === 'development' && (
+              <button
+                type="button"
+                className="preview-button"
+                onClick={() => router.push('/preview')}
+              >
+                Vista previa del panel
+              </button>
+            )}
+
           </div>
         </section>
 
