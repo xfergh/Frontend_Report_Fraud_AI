@@ -1,0 +1,234 @@
+
+.section {
+  width: 100%;
+  margin-top: 48px;
+}
+
+.title {
+  margin: 0 0 20px;
+  color: #101828;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+
+.card {
+  min-width: 0;
+  padding: 28px;
+  border: 1px solid #E4E7EC;
+  border-radius: 14px;
+  background: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(16, 24, 40, 0.03);
+}
+
+.card h3 {
+  margin: 0 0 32px;
+  color: #101828;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.barChart {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 12px;
+  padding-top: 20px;
+}
+
+.yAxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 220px;
+  color: #98A2B3;
+  font-size: 11px;
+  text-align: right;
+}
+
+.chartContent {
+  min-width: 0;
+}
+
+.plotArea {
+  position: relative;
+  height: 220px;
+}
+
+.gridLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px dashed #E4E7EC;
+}
+
+.barColumns {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  padding: 0 8px;
+}
+
+.barColumn {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+}
+
+.bar {
+  width: 65%;
+  max-width: 72px;
+  border-radius: 8px 8px 0 0;
+  transition: height 0.35s ease;
+}
+
+.barValue {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #344054;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.xLabels {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  padding: 14px 8px 0;
+}
+
+.xLabels span {
+  color: #667085;
+  font-size: 12px;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.pieLayout {
+  display: grid;
+  grid-template-columns: minmax(130px, 210px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
+}
+
+.pieChart {
+  width: 100%;
+  max-width: 210px;
+  height: auto;
+  overflow: visible;
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legendItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.legendColor {
+  width: 12px;
+  height: 12px;
+  margin-top: 4px;
+  flex-shrink: 0;
+  border-radius: 4px;
+}
+
+.legendText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.categoryName {
+  color: #344054;
+  font-size: 13px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.categoryValue {
+  color: #667085;
+  font-size: 12px;
+}
+
+.note {
+  margin: 28px 0 0;
+  color: #667085;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.empty {
+  padding: 36px 0;
+  color: #667085;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .section {
+    margin-top: 36px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .pieLayout {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .legend {
+    width: 100%;
+  }
+
+  .barColumns,
+  .xLabels {
+    gap: 6px;
+  }
+
+  .barChart {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .xLabels span {
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar {
+    transition: none;
+  }
+}
