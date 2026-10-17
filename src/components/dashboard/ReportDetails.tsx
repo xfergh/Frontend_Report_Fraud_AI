@@ -11,6 +11,7 @@ type ReportDetailsProps = {
   preview: boolean;
   message: string;
   onDecision: (decision: ReviewDecision) => void;
+  onEvidence: (nombreArchivo: string) => void;
 };
 
 export default function ReportDetails({
@@ -18,6 +19,7 @@ export default function ReportDetails({
   preview,
   message,
   onDecision,
+  onEvidence,
 }: ReportDetailsProps) {
   return (
     <section id="report-details" className={styles.section}>
@@ -51,6 +53,11 @@ export default function ReportDetails({
             </div>
 
             <div>
+              <span className={styles.label}>Subcategoría</span>
+              <p>{report.subcategory ?? 'No especificada'}</p>
+            </div>
+
+            <div>
               <span className={styles.label}>Plataforma</span>
               <p>{report.platform}</p>
             </div>
@@ -59,6 +66,21 @@ export default function ReportDetails({
               <span className={styles.label}>Fecha</span>
               <p>{report.date}</p>
             </div>
+
+            <div>
+              <span className={styles.label}>Entidad reportada</span>
+              <p>{report.reportedEntity ?? 'No especificada'}</p>
+            </div>
+
+            <div>
+              <span className={styles.label}>Publicación</span>
+              <p>
+                {report.anonymous
+                  ? 'Anónima'
+                  : 'No anónima'}
+              </p>
+            </div>
+
           </div>
 
           <div className={styles.block}>
@@ -72,39 +94,37 @@ export default function ReportDetails({
             <h3>Evidencias adjuntas</h3>
 
             {report.evidenceNames?.length ? (
-              <>
-                <p className={styles.note}>
-                  Nombres de archivos de demostración. No hay documentos
-                  disponibles para abrir.
-                </p>
-
-                <ul className={styles.evidenceList}>
-                  {report.evidenceNames.map((name, index) => (
-                    <li key={`${name}-${index}`}>
+              <ul className={styles.evidenceList}>
+                {report.evidenceNames.map((name, index) => (
+                  <li key={`${name}-${index}`}>
+                    <button
+                      type="button"
+                      onClick={() => onEvidence(name)}
+                    >
                       {name}
-                    </li>
-                  ))}
-                </ul>
-              </>
+                    </button>
+                  </li>
+                ))}
+              </ul>
             ) : (
               <p className={styles.note}>
                 No hay evidencias disponibles para este reporte.
               </p>
             )}
+            
           </div>
 
           <div className={styles.footer}>
             <p className={styles.note}>
               {preview
                 ? 'Acciones de demostración. Los cambios no se envían al servidor.'
-                : 'Las acciones estarán disponibles al conectar el backend.'}
+                : 'Selecciona una acción para actualizar el estado del reporte.'}
             </p>
 
             <div className={styles.actions}>
               <button
                 type="button"
                 className={styles.pendingButton}
-                disabled={!preview}
                 onClick={() => onDecision('pending')}
               >
                 Mantener en revisión
@@ -113,7 +133,6 @@ export default function ReportDetails({
               <button
                 type="button"
                 className={styles.rejectButton}
-                disabled={!preview}
                 onClick={() => onDecision('rejected')}
               >
                 Rechazar
@@ -122,7 +141,6 @@ export default function ReportDetails({
               <button
                 type="button"
                 className={styles.approveButton}
-                disabled={!preview}
                 onClick={() => onDecision('approved')}
               >
                 Aprobar

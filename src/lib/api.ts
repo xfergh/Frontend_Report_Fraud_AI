@@ -40,11 +40,21 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-export async function login(email: string, password: string): Promise<void> {
+
+//ESTO SE CAMBIO 
+export async function login(
+  correoElectronico: string,
+  contrasena: string,
+): Promise<void> {
   const { data } = await api.post<{
     accessToken: string;
     refreshToken: string;
-  }>('/auth/login', { email, password });
+  }>('/auth/login', {
+    correoElectronico,
+    contrasena,
+    idRolSolicitado: 2,
+  });
+
   saveTokens(data);
 }
 
@@ -61,6 +71,140 @@ export function errorMessage(e: unknown): string {
     if (message) return Array.isArray(message) ? message.join(', ') : message;
   }
   return 'Ocurrió un error inesperado';
+}
+
+export type ResumenReportesApi = {
+  total: number;
+  pendientes: number;
+  aprobados: number;
+  rechazados: number;
+};
+
+export async function getResumenReportes(): Promise<ResumenReportesApi> {
+  const { data } = await api.get<ResumenReportesApi>(
+    '/reportes/resumen',
+  );
+
+  return data;
+}
+
+export type EstadisticasReportesApi = {
+  totalReportes: number;
+
+  porEstado: {
+    enRevision: number;
+    aprobados: number;
+    rechazados: number;
+  };
+
+  porSexo: {
+    sexo: string;
+    cantidad: number;
+  }[];
+
+  porRangoEdad: {
+    rango: string;
+    cantidad: number;
+  }[];
+
+  porPlataforma: {
+    plataforma: string;
+    cantidad: number;
+  }[];
+};
+
+export async function getEstadisticasReportes(): Promise<EstadisticasReportesApi> {
+  const { data } = await api.get<EstadisticasReportesApi>(
+    '/reportes/estadisticas',
+  );
+
+  return data;
+}
+
+export type ReporteApi = {
+  idReporte: number;
+  idUsuario: number;
+  idSubcategoria: number;
+  idEstado: number;
+  descripcion: string;
+  plataforma: string;
+  entidadReportada: string;
+  publicacionAnonima: boolean;
+  fechaRegistro: string;
+  categoria: string;
+  subcategoria: string;
+};
+
+export async function getReportesPendientes(): Promise<ReporteApi[]> {
+  const { data } = await api.get<ReporteApi[]>(
+    '/reportes/pendientes',
+  );
+
+  return data;
+}
+
+export type EvidenciaApi = {
+  idEvidencia: number;
+  idReporte: number;
+  nombreArchivo: string;
+  urlArchivo: string;
+  tipoArchivo: string;
+  fechaCarga: string;
+};
+
+export async function getReporteDetalle(
+  idReporte: number,
+): Promise<ReporteApi> {
+  const { data } = await api.get<ReporteApi>(
+    `/reportes/${idReporte}`,
+  );
+
+  return data;
+}
+
+export async function getEvidenciasReporte(
+  idReporte: number,
+): Promise<EvidenciaApi[]> {
+  const { data } = await api.get<EvidenciaApi[]>(
+    `/evidencias/reportes/${idReporte}`,
+  );
+
+  return data;
+}
+
+export async function actualizarEstadoReporte(
+  idReporte: number,
+  idEstado: number,
+): Promise<ReporteApi> {
+  const { data } = await api.patch<ReporteApi>(
+    `/reportes/${idReporte}/estado`,
+    { idEstado },
+  );
+
+  return data;
+}
+
+export async function descargarEvidencia(
+  nombreArchivo: string,
+): Promise<void> {
+  const { data } = await api.get<Blob>(
+    `/evidencias/archivos/${encodeURIComponent(nombreArchivo)}`,
+    {
+      responseType: 'blob',
+    },
+  );
+
+  const url = URL.createObjectURL(data);
+
+  const enlace = document.createElement('a');
+  enlace.href = url;
+  enlace.download = nombreArchivo;
+
+  document.body.appendChild(enlace);
+  enlace.click();
+  enlace.remove();
+
+  URL.revokeObjectURL(url);
 }
 
 let refreshing: Promise<void> | null = null;

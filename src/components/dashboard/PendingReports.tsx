@@ -6,10 +6,14 @@ import styles from './PendingReports.module.css';
 
 export type PendingReport = {
   id: string;
+  idReporte: number;
   category: string;
+  subcategory?: string;
   platform: string;
   date: string;
   description: string;
+  reportedEntity?: string;
+  anonymous?: boolean;
   evidenceNames?: string[];
 };
 
