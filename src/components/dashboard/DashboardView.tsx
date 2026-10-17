@@ -7,7 +7,8 @@ import { actualizarEstadoReporte,
   getEstadisticasReportes,
   getReporteDetalle,
   getReportesPendientes,
-  getResumenReportes, type EstadisticasReportesApi, } from '@/lib/api';
+  getResumenReportes,
+  getHistorialReportes, type EstadisticasReportesApi, } from '@/lib/api';
 import DashboardHeader from './DashboardHeader';
 import SummaryCards, { type ReportSummary } from './SummaryCards';
 import PendingReports, { type PendingReport } from './PendingReports';
@@ -101,31 +102,31 @@ export default function DashboardView({
       return;
     }
 
-    getResumenReportes()
-      .then((data) => {
-        setBackendSummary({
-          total: data.total,
-          pending: data.pendientes,
-          approved: data.aprobados,
-          rejected: data.rechazados,
-        });
-      })
-      .catch(() => {
-        setBackendSummary(null);
-      });
-    
-    getEstadisticasReportes()
-      .then((data) => {
-        setBackendStatistics(data);
-      })
-      .catch(() => {
-        setBackendStatistics(null);
-      });
+    async function cargarDashboard() {
+      try {
+        const [
+          resumen,
+          estadisticas,
+          pendientes,
+          historial,
+        ] = await Promise.all([
+          getResumenReportes(),
+          getEstadisticasReportes(),
+          getReportesPendientes(),
+          getHistorialReportes(),
+        ]);
 
-    getReportesPendientes()
-      .then((data) => {
+        setBackendSummary({
+          total: resumen.total,
+          pending: resumen.pendientes,
+          approved: resumen.aprobados,
+          rejected: resumen.rechazados,
+        });
+
+        setBackendStatistics(estadisticas);
+
         setReports(
-          data.map((reporte) => ({
+          pendientes.map((reporte) => ({
             id: `RFA-${reporte.idReporte}`,
             idReporte: reporte.idReporte,
             category: reporte.categoria,
@@ -141,12 +142,46 @@ export default function DashboardView({
             description: reporte.descripcion,
             reportedEntity: reporte.entidadReportada,
             anonymous: reporte.publicacionAnonima,
-          }))
+          })),
         );
-      })
-      .catch(() => {
-        setReports([]);
-      });
+
+        setHistory(
+          historial.map((reporte) => ({
+            id: `RFA-${reporte.idReporte}`,
+            category: reporte.categoria,
+            subcategory: reporte.subcategoria,
+            platform: reporte.plataforma,
+            status:
+              reporte.idEstado === 2
+                ? 'approved'
+                : 'rejected',
+            date: new Date(
+              reporte.fechaRegistro,
+            ).toLocaleDateString('es-MX', {
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric',
+            }),
+          })),
+        );
+      } catch (error) {
+        console.error(
+          'No se pudo actualizar el dashboard:',
+          error,
+        );
+      }
+    }
+
+    cargarDashboard();
+
+    const intervalId = window.setInterval(
+      cargarDashboard,
+      5000,
+    );
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
   }, [preview]);
 
   async function handleSelect(report: PendingReport) {
@@ -261,6 +296,28 @@ export default function DashboardView({
 
       const resumen = await getResumenReportes();
 
+      const historial = await getHistorialReportes();
+
+      setHistory(
+        historial.map((reporte) => ({
+          id: `RFA-${reporte.idReporte}`,
+          category: reporte.categoria,
+          subcategory: reporte.subcategoria,
+          platform: reporte.plataforma,
+          status:
+            reporte.idEstado === 2
+              ? 'approved'
+              : 'rejected',
+          date: new Date(
+            reporte.fechaRegistro,
+          ).toLocaleDateString('es-MX', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+          }),
+        })),
+      );
+
       setBackendSummary({
         total: resumen.total,
         pending: resumen.pendientes,
@@ -311,7 +368,7 @@ export default function DashboardView({
         </section>
 
         <SummaryCards
-          summary={preview ? summary : null}
+          summary={preview ? summary : backendSummary}
         />
 
         <PendingReports
@@ -331,13 +388,11 @@ export default function DashboardView({
   
         <ReportStatistics
           summary={preview ? summary : backendSummary}
-          reports={preview ? reports : null}
+          reports={reports}
           statistics={preview ? null : backendStatistics}
         />
         
-        <ReportHistory
-          entries={preview ? history : null}
-        />
+        <ReportHistory entries={history} />
       </main>
     </div>
   );

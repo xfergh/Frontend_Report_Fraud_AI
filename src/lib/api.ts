@@ -143,6 +143,16 @@ export async function getReportesPendientes(): Promise<ReporteApi[]> {
   return data;
 }
 
+export async function getHistorialReportes(): Promise<
+  ReporteApi[]
+> {
+  const { data } = await api.get<ReporteApi[]>(
+    '/reportes/historial',
+  );
+
+  return data;
+}
+
 export type EvidenciaApi = {
   idEvidencia: number;
   idReporte: number;
