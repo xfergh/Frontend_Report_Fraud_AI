@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+const isDev = process.env.NODE_ENV === "development";
+
 const ContentSecurityPolicy = [
   "default-src 'self'",
   "base-uri 'self'",
@@ -9,11 +11,12 @@ const ContentSecurityPolicy = [
   "img-src 'self' data: blob:",
   "font-src 'self' data:",
   "style-src 'self' 'unsafe-inline'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
   "connect-src 'self' http://localhost:3000 http://192.168.20.10:3000 ws://localhost:3001 ws://192.168.40.10:3001",
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  poweredByHeader: false,
   async headers() {
     return [
       {
@@ -30,6 +33,10 @@ const nextConfig: NextConfig = {
           {
             key: "X-Content-Type-Options",
             value: "nosniff",
+          },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=31536000; includeSubDomains",
           },
           {
             key: "Referrer-Policy",
