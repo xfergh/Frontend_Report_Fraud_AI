@@ -1,22 +1,23 @@
-
 .section {
   width: 100%;
-  margin-top: 48px;
-  scroll-margin-top: 32px;
+  margin-top: 44px;
 }
 
 .title {
-  margin: 0 0 20px;
+  margin: 0 0 22px;
   color: #101828;
   font-size: 21px;
   font-weight: 700;
+  letter-spacing: -0.45px;
 }
 
 .card {
-  padding: 28px;
+  overflow: hidden;
+  padding: 30px;
   border: 1px solid #E4E7EC;
-  border-radius: 14px;
+  border-radius: 16px;
   background: #FFFFFF;
+  box-shadow: 0 5px 20px rgba(16, 24, 40, 0.035);
 }
 
 .header {
@@ -24,25 +25,34 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 20px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid #E4E7EC;
+  padding-bottom: 23px;
+  border-bottom: 1px solid #E8EDF4;
 }
 
 .reportId {
+  display: inline-block;
   color: #2563EB;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
 }
 
 .header h3 {
-  margin: 8px 0 0;
+  margin: 7px 0 0;
   color: #101828;
   font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.35px;
 }
 
 .status {
-  padding: 7px 12px;
-  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  border: 1px solid #FDE8B3;
+  border-radius: 999px;
   background: #FFFBEB;
   color: #92400E;
   font-size: 12px;
@@ -50,45 +60,65 @@
   white-space: nowrap;
 }
 
+.status::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #D97706;
+}
+
 .information {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-  padding: 28px 0;
+  gap: 20px 24px;
+  padding: 26px 0 29px;
+}
+
+.information > div {
+  min-width: 0;
+  padding-left: 13px;
+  border-left: 2px solid #E6EDF7;
 }
 
 .label {
+  display: block;
   color: #667085;
-  font-size: 13px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
 }
 
 .information p {
-  margin: 8px 0 0;
+  margin: 6px 0 0;
   color: #101828;
   font-size: 14px;
   font-weight: 600;
+  line-height: 1.5;
   overflow-wrap: anywhere;
 }
 
 .block {
-  margin-bottom: 28px;
+  margin-bottom: 27px;
 }
 
 .block h3 {
-  margin: 0 0 12px;
+  margin: 0 0 14px;
   color: #101828;
   font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
 }
 
 .description {
   margin: 0;
-  padding: 18px;
-  border: 1px solid #E4E7EC;
-  border-radius: 10px;
-  background: #F8FAFC;
+  padding: 18px 20px;
+  border: 1px solid #E4EAF2;
+  border-radius: 11px;
+  background: #F8FAFD;
   color: #344054;
   font-size: 14px;
-  line-height: 1.7;
+  line-height: 1.75;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
@@ -103,41 +133,105 @@
 .evidenceList {
   display: grid;
   gap: 10px;
-  margin: 14px 0 0;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .evidenceList li {
-  padding: 12px 16px;
+  min-width: 0;
+}
+
+.evidenceList li button {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  width: 100%;
+  min-height: 68px;
+  padding: 12px 15px;
   border: 1px solid #E4E7EC;
-  border-radius: 8px;
+  border-radius: 11px;
+  background: #FFFFFF;
   color: #344054;
+  text-align: left;
+  font: inherit;
   font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
   overflow-wrap: anywhere;
+  cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.evidenceList li button::before {
+  content: '';
+  display: block;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #EFF6FF;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='%232563EB' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpath d='M14 2v6h6M8 13h8M8 17h6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 21px;
+}
+
+.evidenceList li button::after {
+  content: 'Descargar';
+  flex: 0 0 auto;
+  margin-left: auto;
+  padding: 7px 10px;
+  border: 1px solid #BFDBFE;
+  border-radius: 8px;
+  background: #EFF6FF;
+  color: #1D4ED8;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.evidenceList li button:hover {
+  border-color: #93C5FD;
+  background: #FAFCFF;
+  box-shadow: 0 3px 12px rgba(37, 99, 235, 0.055);
+}
+
+.evidenceList li button:focus-visible {
+  outline: 3px solid #93C5FD;
+  outline-offset: 3px;
 }
 
 .footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
   padding-top: 24px;
-  border-top: 1px solid #E4E7EC;
+  border-top: 1px solid #E8EDF4;
+}
+
+.footer .note {
+  max-width: 370px;
 }
 
 .actions {
   display: flex;
-  justify-content: flex-end;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 20px;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 .actions button {
-  min-height: 42px;
+  min-height: 44px;
   padding: 10px 16px;
-  border-radius: 8px;
+  border-radius: 9px;
   font: inherit;
   font-size: 13px;
   font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
   cursor: pointer;
+  transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
 }
 
 .pendingButton {
@@ -146,20 +240,32 @@
   color: #344054;
 }
 
+.pendingButton:hover:not(:disabled) {
+  border-color: #98A2B3;
+  background: #F8FAFC;
+}
+
 .rejectButton {
   border: 1px solid #FECACA;
   background: #FEF2F2;
   color: #B91C1C;
 }
 
+.rejectButton:hover:not(:disabled) {
+  border-color: #FCA5A5;
+  background: #FEE2E2;
+}
+
 .approveButton {
   border: 1px solid #2563EB;
   background: #2563EB;
   color: #FFFFFF;
+  box-shadow: 0 2px 7px rgba(37, 99, 235, 0.13);
 }
 
-.actions button:hover:not(:disabled) {
-  filter: brightness(0.96);
+.approveButton:hover:not(:disabled) {
+  border-color: #1D4ED8;
+  background: #1D4ED8;
 }
 
 .actions button:disabled {
@@ -173,32 +279,89 @@
 }
 
 .message {
-  margin: 0 0 16px;
-  padding: 14px 18px;
+  margin: 0 0 18px;
+  padding: 14px 17px;
   border: 1px solid #BFDBFE;
-  border-radius: 8px;
+  border-radius: 10px;
   background: #EFF6FF;
   color: #1D4ED8;
   font-size: 14px;
+  line-height: 1.6;
 }
 
 .empty {
   padding: 48px 24px;
-  border: 1px dashed #D0D5DD;
-  border-radius: 12px;
+  border: 1px dashed #CCD5E1;
+  border-radius: 14px;
   background: #FFFFFF;
   color: #667085;
   text-align: center;
   font-size: 14px;
+  line-height: 1.6;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 1050px) {
+  .footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .footer .note {
+    max-width: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .section {
+    margin-top: 36px;
+  }
+
   .card {
-    padding: 20px;
+    padding: 22px;
   }
 
   .information {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .actions {
+    justify-content: stretch;
+  }
+
+  .actions button {
+    flex: 1 1 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 18px;
+  }
+
+  .header {
+    flex-wrap: wrap;
+  }
+
+  .information {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .evidenceList li button {
+    gap: 10px;
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  .evidenceList li button::before {
+    flex-basis: 36px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .evidenceList li button::after {
+    padding: 6px 8px;
+    font-size: 11px;
   }
 
   .actions {
@@ -208,8 +371,45 @@
   .actions button {
     width: 100%;
   }
+}
 
-  .section {
-    margin-top: 36px;
+@media (prefers-reduced-motion: reduce) {
+  .evidenceList li button,
+  .actions button {
+    transition: none;
+  }
+}
+
+/* Cyber Professional+ | Elevación del detalle y sus controles */
+.card {
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.evidenceList li button,
+.actions button {
+  transition:
+    transform 190ms ease,
+    border-color 190ms ease,
+    background-color 190ms ease,
+    box-shadow 190ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(16, 24, 40, 0.07);
+  }
+
+  .evidenceList li button:hover,
+  .actions button:hover:not(:disabled) {
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .evidenceList li button,
+  .actions button {
+    transition: none;
   }
 }

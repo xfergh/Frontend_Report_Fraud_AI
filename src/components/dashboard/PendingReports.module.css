@@ -1,12 +1,10 @@
-
 .section {
   width: 100%;
-  margin-top: 48px;
-  scroll-margin-top: 32px;
+  margin-top: 44px;
 }
 
 .heading {
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 
 .heading h2 {
@@ -14,26 +12,30 @@
   color: #101828;
   font-size: 21px;
   font-weight: 700;
+  letter-spacing: -0.45px;
 }
 
 .heading p {
   margin: 8px 0 0;
   color: #667085;
   font-size: 14px;
+  line-height: 1.6;
 }
 
 .controls {
   display: grid;
-  grid-template-columns: 1fr 240px;
-  gap: 20px;
+  grid-template-columns: minmax(0, 1fr) minmax(210px, 248px);
+  gap: 18px;
   margin-bottom: 20px;
+  align-items: end;
 }
 
 .searchField,
 .filterField {
   display: flex;
+  min-width: 0;
   flex-direction: column;
-  gap: 8px;
+  gap: 9px;
 }
 
 .searchField label,
@@ -41,122 +43,210 @@
   color: #344054;
   font-size: 13px;
   font-weight: 600;
+  line-height: 1.3;
 }
 
 .searchField input,
 .filterField select {
   width: 100%;
-  height: 44px;
-  padding: 0 14px;
-  border: 1px solid #D0D5DD;
-  border-radius: 8px;
-  background: #FFFFFF;
+  height: 46px;
+  box-sizing: border-box;
+  border: 1px solid #D5DDE8;
+  border-radius: 10px;
+  background-color: #FFFFFF;
   color: #101828;
   font: inherit;
   font-size: 14px;
-  box-sizing: border-box;
+  transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+}
+
+.searchField input {
+  padding: 0 16px 0 44px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2398A2B3' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 15px center;
+  background-size: 18px 18px;
+}
+
+.searchField input::placeholder {
+  color: #98A2B3;
+}
+
+.filterField select {
+  padding: 0 38px 0 14px;
+  cursor: pointer;
+}
+
+.searchField input:hover,
+.filterField select:hover {
+  border-color: #98A2B3;
 }
 
 .searchField input:focus,
 .filterField select:focus {
-  outline: 2px solid #93C5FD;
+  outline: none;
   border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.13);
 }
 
 .tableWrapper {
+  width: 100%;
+  box-sizing: border-box;
   overflow-x: auto;
   border: 1px solid #E4E7EC;
-  border-radius: 14px;
+  border-radius: 15px;
   background: #FFFFFF;
+  box-shadow: 0 5px 20px rgba(16, 24, 40, 0.035);
 }
 
 .table {
   width: 100%;
-  min-width: 740px;
+  min-width: 720px;
   border-collapse: collapse;
   text-align: left;
 }
 
 .table th {
   padding: 16px 20px;
-  background: #F8FAFC;
-  color: #475467;
-  font-size: 13px;
-  font-weight: 600;
   border-bottom: 1px solid #E4E7EC;
+  background: #F8FAFD;
+  color: #475467;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
 }
 
 .table td {
   padding: 18px 20px;
+  border-bottom: 1px solid #EEF2F6;
   color: #344054;
   font-size: 14px;
-  border-bottom: 1px solid #F2F4F7;
+  line-height: 1.5;
+  vertical-align: middle;
+  transition: background-color 180ms ease;
+}
+
+.table tbody tr:nth-child(even) {
+  background: #FCFDFE;
 }
 
 .table tbody tr:last-child td {
   border-bottom: none;
 }
 
-.table tbody tr:hover {
-  background: #F8FAFC;
+.table tbody tr:hover td {
+  background: #F5F9FF;
 }
 
-.table .selectedRow,
-.table .selectedRow:hover {
+.table .selectedRow td,
+.table .selectedRow:hover td {
   background: #EFF6FF;
 }
 
+.table .selectedRow td:first-child {
+  box-shadow: inset 3px 0 0 #2563EB;
+}
+
 .reportId {
-  color: #2563EB !important;
-  font-weight: 600;
+  color: #1D4ED8 !important;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .selectButton {
-  padding: 8px 12px;
+  min-height: 38px;
+  padding: 8px 15px;
   border: 1px solid #BFDBFE;
-  border-radius: 7px;
+  border-radius: 9px;
   background: #EFF6FF;
   color: #1D4ED8;
   font: inherit;
   font-size: 13px;
   font-weight: 600;
+  white-space: nowrap;
   cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
 }
 
 .selectButton:hover {
+  border-color: #93C5FD;
   background: #DBEAFE;
 }
 
-.selectButton:focus-visible {
-  outline: 2px solid #2563EB;
-  outline-offset: 2px;
+.selectButton[aria-pressed='true'] {
+  border-color: #2563EB;
+  background: #2563EB;
+  color: #FFFFFF;
 }
 
-.empty {
-  padding: 40px 20px;
-  text-align: center;
-  color: #667085;
-  font-size: 14px;
-  border: 1px solid #E4E7EC;
-  border-radius: 12px;
+.selectButton[aria-pressed='true']:hover {
+  background: #1D4ED8;
+}
+
+.selectButton:focus-visible {
+  outline: 3px solid #93C5FD;
+  outline-offset: 3px;
 }
 
 .selection {
-  margin: 16px 0 0;
-  color: #2563EB;
-  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 17px 0 0;
+  color: #1D4ED8;
+  font-size: 13px;
   font-weight: 600;
 }
 
+.selection::before {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #2563EB;
+  content: '';
+}
+
 .results {
-  margin: 16px 0 0;
+  margin: 14px 0 0;
   color: #667085;
   font-size: 13px;
 }
 
-@media (max-width: 700px) {
+.empty {
+  padding: 42px 20px;
+  background: #FFFFFF;
+  color: #667085;
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.section > .empty {
+  border: 1px dashed #D0D5DD;
+  border-radius: 14px;
+}
+
+.notice {
+  margin: 0 0 20px;
+  padding: 14px 18px;
+  border: 1px solid #BFDBFE;
+  border-radius: 10px;
+  background: #EFF6FF;
+  color: #1D4ED8;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@media (max-width: 760px) {
   .controls {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .table {
+    min-width: 690px;
   }
 
   .section {
@@ -164,13 +254,34 @@
   }
 }
 
-.notice {
-  margin: 0 0 20px;
-  padding: 14px 18px;
-  border: 1px solid #BFDBFE;
-  border-radius: 8px;
-  background: #EFF6FF;
-  color: #1D4ED8;
-  font-size: 14px;
-  line-height: 1.6;
+@media (prefers-reduced-motion: reduce) {
+  .searchField input,
+  .filterField select,
+  .table td,
+  .selectButton {
+    transition: none;
+  }
+}
+
+/* Cyber Professional+ | Elevación de la tabla y selección */
+.tableWrapper {
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .tableWrapper:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(16, 24, 40, 0.06);
+  }
+
+  .selectButton:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tableWrapper,
+  .selectButton {
+    transition: none;
+  }
 }

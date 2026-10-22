@@ -42,3 +42,163 @@
     font-size: 25px;
   }
 }
+
+.dashboard :global(#dashboard-summary),
+.dashboard :global(#pending-reports),
+.dashboard :global(#report-details),
+.dashboard :global(#dashboard-statistics),
+.dashboard :global(#dashboard-history) {
+  scroll-margin-top: 158px;
+}
+
+@media (max-width: 900px) {
+  .dashboard :global(#dashboard-summary),
+  .dashboard :global(#pending-reports),
+  .dashboard :global(#report-details),
+  .dashboard :global(#dashboard-statistics),
+  .dashboard :global(#dashboard-history) {
+    scroll-margin-top: 195px;
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard :global(#dashboard-summary),
+  .dashboard :global(#pending-reports),
+  .dashboard :global(#report-details),
+  .dashboard :global(#dashboard-statistics),
+  .dashboard :global(#dashboard-history) {
+    scroll-margin-top: 210px;
+  }
+}
+
+.dashboard :global(#dashboard-summary),
+.dashboard :global(#pending-reports),
+.dashboard :global(#report-details),
+.dashboard :global(#dashboard-statistics),
+.dashboard :global(#dashboard-history) {
+  scroll-margin-top: 158px;
+}
+
+@media (max-width: 900px) {
+  .dashboard :global(#dashboard-summary),
+  .dashboard :global(#pending-reports),
+  .dashboard :global(#report-details),
+  .dashboard :global(#dashboard-statistics),
+  .dashboard :global(#dashboard-history) {
+    scroll-margin-top: 195px;
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard :global(#dashboard-summary),
+  .dashboard :global(#pending-reports),
+  .dashboard :global(#report-details),
+  .dashboard :global(#dashboard-statistics),
+  .dashboard :global(#dashboard-history) {
+    scroll-margin-top: 210px;
+  }
+}
+
+.dashboard {
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
+  background: linear-gradient(
+    145deg,
+    #0B1220 0%,
+    #101E32 52%,
+    #111F34 100%
+  );
+  color: #101828;
+  color-scheme: light;
+}
+
+.dashboard::before,
+.dashboard::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dashboard::before {
+  background:
+    radial-gradient(
+      ellipse 45% 38% at 96% 22%,
+      rgba(59, 130, 246, 0.09),
+      transparent 85%
+    ),
+    radial-gradient(
+      ellipse 42% 38% at 4% 86%,
+      rgba(24, 182, 164, 0.045),
+      transparent 85%
+    );
+
+  animation: fondoAmbiente 26s ease-in-out infinite alternate;
+}
+
+.dashboard::after {
+  background-image:
+    linear-gradient(
+      rgba(147, 197, 253, 0.045) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(147, 197, 253, 0.045) 1px,
+      transparent 1px
+    );
+
+  background-size: 90px 90px;
+
+  mask-image: linear-gradient(
+    90deg,
+    #000 0%,
+    transparent 25%,
+    transparent 75%,
+    #000 100%
+  );
+
+  opacity: 0.35;
+}
+
+.dashboard .main {
+  position: relative;
+  z-index: 1;
+}
+
+.dashboard .introduction h1,
+.dashboard .main > section > h2,
+.dashboard .main > section > div:first-child > h2 {
+  color: #F5F8FF;
+}
+
+.dashboard .introduction p,
+.dashboard .main > section > h2 + p,
+.dashboard .main > section > div:first-child > p,
+.dashboard .main > section > p {
+  color: #B7C5DB;
+}
+
+.dashboard .main > section label {
+  color: #D6E2F2;
+}
+
+@keyframes fondoAmbiente {
+  from {
+    opacity: 0.68;
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(-12px, 8px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard::before {
+    animation: none;
+  }
+}

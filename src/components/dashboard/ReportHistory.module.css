@@ -8,28 +8,56 @@
   color: #101828;
   font-size: 21px;
   font-weight: 700;
+  letter-spacing: -0.45px;
+  line-height: 1.35;
 }
 
 .subtitle {
   margin: 8px 0 24px;
   color: #667085;
   font-size: 14px;
+  line-height: 1.6;
 }
 
 .empty {
-  padding: 48px 24px;
-  border: 1px dashed #D0D5DD;
-  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 188px;
+  padding: 35px 24px;
+  border: 1px dashed #DCE5F0;
+  border-radius: 16px;
   background: #FFFFFF;
+  box-shadow: 0 5px 20px rgba(16, 24, 40, 0.025);
   color: #667085;
+  font-size: 14px;
+  line-height: 1.6;
   text-align: center;
 }
 
+.empty::before {
+  content: '';
+  display: block;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: #EFF6FF;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 24 24' fill='none' stroke='%232563EB' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 12a9 9 0 1 0 3-6.7L3 8'/%3E%3Cpath d='M3 3v5h5M12 7v5l3 2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 25px;
+}
+
 .tableWrapper {
+  width: 100%;
   overflow-x: auto;
   border: 1px solid #E4E7EC;
-  border-radius: 14px;
+  border-radius: 16px;
   background: #FFFFFF;
+  box-shadow: 0 5px 20px rgba(16, 24, 40, 0.035);
 }
 
 .table {
@@ -40,46 +68,90 @@
 .table th,
 .table td {
   padding: 18px 20px;
-  border-bottom: 1px solid #EAECF0;
-  color: #475467;
-  font-size: 14px;
+  border-bottom: 1px solid #EDF0F5;
+  font-size: 13px;
+  line-height: 1.5;
   text-align: left;
+  vertical-align: middle;
 }
 
 .table th {
-  background: #F9FAFB;
-  color: #344054;
+  background: #F8FAFC;
+  color: #475467;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.table td {
+  color: #475467;
+  overflow-wrap: anywhere;
+}
+
+.table tbody tr {
+  transition: background-color 160ms ease;
+}
+
+.table tbody tr:hover {
+  background: #F8FBFF;
 }
 
 .table tbody tr:last-child td {
   border-bottom: none;
 }
 
-.reportId {
-  color: #101828;
-  font-weight: 600;
+.table th:last-child,
+.table td:last-child {
+  white-space: nowrap;
+}
+
+.table td.reportId {
+  color: #2563EB;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .approved,
 .rejected {
   display: inline-flex;
   align-items: center;
-  padding: 5px 10px;
+  gap: 7px;
+  padding: 6px 10px;
+  border: 1px solid transparent;
   border-radius: 999px;
   font-size: 12px;
   font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.approved::before,
+.rejected::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  border-radius: 50%;
 }
 
 .approved {
-  background: #ECFDF3;
-  color: #027A48;
+  border-color: #B7EACF;
+  background: #ECFDF5;
+  color: #047857;
+}
+
+.approved::before {
+  background: #059669;
 }
 
 .rejected {
-  background: #FEF3F2;
-  color: #B42318;
+  border-color: #FECACA;
+  background: #FEF2F2;
+  color: #B91C1C;
+}
+
+.rejected::before {
+  background: #DC2626;
 }
 
 @media (max-width: 700px) {
@@ -89,5 +161,65 @@
 
   .table {
     min-width: 760px;
+  }
+
+  .table th,
+  .table td {
+    padding: 15px 17px;
+  }
+
+  .empty {
+    min-height: 165px;
+    padding: 28px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .table tbody tr {
+    transition: none;
+  }
+}
+
+/* Cyber Professional+ | Aparición suave del historial */
+@keyframes rfHistoryEntrance {
+  from {
+    opacity: 0.35;
+    translate: 0 18px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .tableWrapper,
+    .empty {
+      animation: rfHistoryEntrance linear both;
+      animation-timeline: view(block);
+      animation-range: entry 0% cover 30%;
+    }
+  }
+}
+
+/* Cyber Professional+ | Elevación del historial */
+.tableWrapper,
+.empty {
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .tableWrapper:hover,
+  .empty:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(16, 24, 40, 0.065);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tableWrapper,
+  .empty {
+    transition: none;
   }
 }
