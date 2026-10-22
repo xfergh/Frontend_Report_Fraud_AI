@@ -17,7 +17,7 @@ export default function ReportHistory({
   entries,
 }: ReportHistoryProps) {
   return (
-    <section className={styles.section}>
+    <section id="dashboard-history" className={styles.section}>
       <h2 className={styles.title}>
         Historial de reportes
       </h2>

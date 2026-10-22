@@ -205,7 +205,7 @@ export default function ReportStatistics({
   const sexoSlices = buildPieData(sexoItems, sexoColors);
 
   return (
-    <section className={styles.section}>
+    <section id="dashboard-statistics" className={styles.section}>
       <h2 className={styles.title}>Estadísticas de reportes</h2>
 
       <div className={styles.grid}>

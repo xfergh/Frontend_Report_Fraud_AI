@@ -23,7 +23,7 @@ export default function SummaryCards({
   summary,
 }: SummaryCardsProps) {
   return (
-    <section className={styles.section}>
+    <section id="dashboard-summary" className={styles.section}>
       <h2 className={styles.title}>Resumen general</h2>
 
       <div className={styles.grid}>

@@ -311,3 +311,164 @@ main:not(.login-page) {
   outline: 3px solid #93C5FD;
   outline-offset: 3px;
 }
+
+/* Cyber Professional+ | Inicio de sesión integrado a pantalla completa */
+.login-page,
+.login-page *,
+.login-page *::before,
+.login-page *::after {
+  box-sizing: border-box;
+}
+
+.login-page {
+  display: block;
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  min-height: 100svh;
+  margin: 0;
+  padding: 0;
+  overflow-x: clip;
+  background: #0B1220;
+}
+
+.login-container {
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  min-height: 100svh;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.login-brand {
+  padding: clamp(30px, 5.5vw, 88px);
+  background: linear-gradient(145deg, #0B1220 12%, #10213A 100%);
+}
+
+.login-panel {
+  min-width: 0;
+  padding: 64px clamp(30px, 6.5vw, 100px);
+  background: #F7F9FC;
+}
+
+.login-card {
+  max-width: 420px;
+}
+
+.login-card h1 {
+  margin-bottom: 36px;
+  font-size: clamp(28px, 2.25vw, 34px);
+}
+
+.login-card input {
+  height: 50px;
+  border-radius: 10px;
+}
+
+.login-button,
+.login-card .preview-button {
+  min-height: 48px;
+  border-radius: 10px;
+  transition:
+    background-color 190ms ease,
+    border-color 190ms ease,
+    box-shadow 190ms ease,
+    transform 190ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .login-button:hover:not(:disabled),
+  .login-card .preview-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.10);
+  }
+}
+
+@media (max-width: 860px) {
+  .login-container {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .login-brand {
+    min-height: 146px;
+    padding: 28px clamp(24px, 6vw, 50px);
+  }
+
+  .login-panel {
+    min-height: 540px;
+    padding: 64px 28px;
+  }
+
+  .brand-circle-1 {
+    top: -320px;
+    right: -170px;
+  }
+
+  .brand-circle-2 {
+    bottom: -400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-brand {
+    min-height: 120px;
+    padding: 24px;
+  }
+
+  .brand-icon {
+    width: 46px;
+    height: 46px;
+  }
+
+  .brand-name {
+    font-size: 22px;
+  }
+
+  .login-panel {
+    min-height: 0;
+    padding: 48px 22px 64px;
+    align-items: flex-start;
+  }
+
+  .login-card h1 {
+    margin-bottom: 30px;
+  }
+}
+
+@keyframes rfLoginAppear {
+  from {
+    opacity: 0.6;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rfLoginArcDrift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(9px, -8px, 0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .login-card {
+    animation: rfLoginAppear 560ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+  }
+
+  .brand-circle-1,
+  .brand-circle-2 {
+    animation: rfLoginArcDrift 24s ease-in-out infinite alternate;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-button,
+  .login-card .preview-button {
+    transition: none;
+    transform: none !important;
+  }
+}

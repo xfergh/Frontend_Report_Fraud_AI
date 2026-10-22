@@ -2,7 +2,7 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
 
 export const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
+  process.env.NEXT_PUBLIC_API_URL ?? 'http://192.168.20.10:3000';
 
 const ACCESS_KEY = 'accessToken';
 const REFRESH_KEY = 'refreshToken';
@@ -40,8 +40,6 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-
-//ESTO SE CAMBIO 
 export async function login(
   correoElectronico: string,
   contrasena: string,
@@ -56,6 +54,29 @@ export async function login(
   });
 
   saveTokens(data);
+}
+
+export type CrearAdministradorRequest = {
+  nombreUsuario: string;
+  correoElectronico: string;
+  contrasena: string;
+};
+
+export type CrearAdministradorResponse = {
+  idUsuario: number;
+  correoElectronico: string;
+  idRol: number;
+};
+
+export async function crearAdministrador(
+  request: CrearAdministradorRequest,
+): Promise<CrearAdministradorResponse> {
+  const { data } = await api.post<CrearAdministradorResponse>(
+    '/auth/register-admin',
+    request,
+  );
+
+  return data;
 }
 
 export function logout(): void {
